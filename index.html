@@ -3,18 +3,18 @@
     <head>
 		<title>BASIC Monkey Game</title>
 	</head>
-    
+
 	<script type="text/javascript">
 		function init()
 		{
 			var canvas = document.getElementById("surface");
-			var context = canvas.getContext("2d");			
-            
-            //background
-            context.fillStyle = "rgb(0, 0, 150)";
+			var context = canvas.getContext("2d");
+
+            context.strokeStyle = "#000";
+
+            context.fillStyle = "#00008a";
             context.fillRect(0, 0, 1020, 768);
-            
-            //Buildings
+
             drawBuilding(context, 0);
             drawBuilding(context, 102);
             drawBuilding(context, 204);
@@ -26,28 +26,59 @@
             drawBuilding(context, 816);
             drawBuilding(context, 918);
 		}
-        
+
         function drawBuilding(context, start)
         {
-            var  height = Math.floor(Math.random()*400) + 150;
-            var  colour = Math.floor(Math.random()*3);
-            
+            var width = 102;
+            var wWidth = 10;            
+            var wHeight = 14;
+            var wOffset = 6;
+            var on = 1;
+            var height = Math.floor(Math.random()* 400) + 150;
+            var colour = Math.floor(Math.random()* 3);
+            var numRows = (height / (wHeight + wOffset)) - 1;
+
             switch(colour)
             {
                 case 0:
                     context.fillStyle = "rgb(200, 0, 0)";
                     break;
-                case 1:                    
+                case 1:
                     context.fillStyle = "rgb(0, 168, 168)";
                     break;
-                default:                    
+                default:
                     context.fillStyle = "rgb(168, 168, 168)";
             }
-                    
-            context.fillRect(start, 768 - height, 102, height);
+
+            context.fillRect(start, 768 - height, width, height);
+            context.strokeRect(start, 768 - height, width, height);
+
+            //Windows            
+            for(var j=0 ; j<numRows ; j++)
+            {
+                for(var i=0 ; i<6 ; i++)
+                {
+                    if(on)
+                    {
+                        context.fillStyle = "#fff361";
+                    }
+                    else
+                    {
+                        context.fillStyle = "#545454";
+                    }
+    
+                    context.fillRect(
+                        (start + 4) + ((wWidth + wOffset) * i),
+                        (768 - height + 4) + ((wHeight + wOffset) * j),
+                        wWidth,
+                        wHeight);
+    
+                    on = Math.floor(Math.random() * 2);
+                }
+            }
         }
 	</script>
-    
+
     <body onload="init()">
     	<canvas id="surface" width="1020" height="768">
 			<p>Please use a real browser.</p>
