@@ -1,0 +1,56 @@
+<!doctype html>
+<html>
+    <head>
+		<title>BASIC Monkey Game</title>
+	</head>
+    
+	<script type="text/javascript">
+		function init()
+		{
+			var canvas = document.getElementById("surface");
+			var context = canvas.getContext("2d");			
+            
+            //background
+            context.fillStyle = "rgb(0, 0, 150)";
+            context.fillRect(0, 0, 1020, 768);
+            
+            //Buildings
+            drawBuilding(context, 0);
+            drawBuilding(context, 102);
+            drawBuilding(context, 204);
+            drawBuilding(context, 306);
+            drawBuilding(context, 408);
+            drawBuilding(context, 510);
+            drawBuilding(context, 612);
+            drawBuilding(context, 714);
+            drawBuilding(context, 816);
+            drawBuilding(context, 918);
+		}
+        
+        function drawBuilding(context, start)
+        {
+            var  height = Math.floor(Math.random()*400) + 150;
+            var  colour = Math.floor(Math.random()*3);
+            
+            switch(colour)
+            {
+                case 0:
+                    context.fillStyle = "rgb(200, 0, 0)";
+                    break;
+                case 1:                    
+                    context.fillStyle = "rgb(0, 168, 168)";
+                    break;
+                default:                    
+                    context.fillStyle = "rgb(168, 168, 168)";
+            }
+                    
+            context.fillRect(start, 768 - height, 102, height);
+        }
+	</script>
+    
+    <body onload="init()">
+    	<canvas id="surface" width="1020" height="768">
+			<p>Please use a real browser.</p>
+		</canvas>
+	</body>
+</html>
