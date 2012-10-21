@@ -8,13 +8,21 @@
 		function init()
 		{
 			var canvas = document.getElementById("surface");
+            
+            if(!canvas.getContext)
+            {
+                alert("Get a real browser.");
+                return;
+            }
+            
 			var context = canvas.getContext("2d");
-
-            context.strokeStyle = "#000";
 
             context.fillStyle = "#00008a";
             context.fillRect(0, 0, 1020, 768);
 
+            drawSun(context);
+
+            context.strokeStyle = "#000";
             drawBuilding(context, 0);
             drawBuilding(context, 102);
             drawBuilding(context, 204);
@@ -27,10 +35,61 @@
             drawBuilding(context, 918);
 		}
 
+        function drawSun(context)
+        {
+            var centerX = 500;
+            var centerY = 70;
+            var radius = 30;
+            var sparkleLength = 15;
+            
+            //Yellow circle
+            context.fillStyle = "#fbfc00";
+            context.beginPath();
+            context.arc(centerX, centerY, radius, 0, Math.PI * 2, true);
+            context.closePath();
+            context.fill();
+
+            //Smile
+            context.fillStyle = "#000";
+            context.beginPath();
+            context.arc(centerX, centerY, 25, 0, Math.PI, false);
+            context.closePath();
+            context.stroke();
+
+            //Left Eye
+            context.fillStyle = "#000";
+            context.beginPath();
+            context.arc(centerX - 12, centerY - 12, 4, 0, Math.PI * 2, false);
+            context.closePath();
+            context.fill();
+
+            //Right Eye
+            context.fillStyle = "#000";
+            context.beginPath();
+            context.arc(centerX + 12, centerY - 12, 4, 0, Math.PI * 2, false);
+            context.closePath();
+            context.fill();
+
+            //Sparkles
+//            context.strokeStyle = "#fbfc00";
+//            
+//            context.beginPath();
+//            context.moveTo(centerX, centerY - radius);
+//            context.lineTo(centerX, centerY - radius - sparkleLength);
+//            context.closePath();
+//            context.stroke();
+//            
+//            context.beginPath();
+//            context.moveTo(centerX, centerY - radius);
+//            context.lineTo(centerX, centerY - radius - sparkleLength);
+//            context.closePath();
+//            context.stroke();
+        }
+
         function drawBuilding(context, start)
         {
             var width = 102;
-            var wWidth = 10;            
+            var wWidth = 10;
             var wHeight = 14;
             var wOffset = 6;
             var on = 1;
@@ -53,7 +112,7 @@
             context.fillRect(start, 768 - height, width, height);
             context.strokeRect(start, 768 - height, width, height);
 
-            //Windows            
+            //Windows
             for(var j=0 ; j<numRows ; j++)
             {
                 for(var i=0 ; i<6 ; i++)
@@ -66,13 +125,13 @@
                     {
                         context.fillStyle = "#545454";
                     }
-    
+
                     context.fillRect(
                         (start + 4) + ((wWidth + wOffset) * i),
                         (768 - height + 4) + ((wHeight + wOffset) * j),
                         wWidth,
                         wHeight);
-    
+
                     on = Math.floor(Math.random() * 2);
                 }
             }
@@ -80,8 +139,7 @@
 	</script>
 
     <body onload="init()">
-    	<canvas id="surface" width="1020" height="768">
-			<p>Please use a real browser.</p>
+    	<canvas id="surface" width="1020" height="768">			
 		</canvas>
 	</body>
 </html>
