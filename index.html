@@ -16,24 +16,39 @@
             }
             
 			var context = canvas.getContext("2d");
+            var monkeyPositions;
 
+            drawBackGround(context);
+            drawSun(context);            
+            monkeyPositions = drawBuildings(context);
+            drawMonkeys(context, monkeyPositions);
+		}        
+        
+        function drawBackGround(context)
+        {
             context.fillStyle = "#00008a";
             context.fillRect(0, 0, 1020, 768);
-
-            drawSun(context);
-
+        }
+        
+        function drawBuildings(context)
+        {
+            var pos1, pos2;
+            
             context.strokeStyle = "#000";
+            
             drawBuilding(context, 0);
-            drawBuilding(context, 102);
+            pos1 = drawBuilding(context, 102, true);
             drawBuilding(context, 204);
             drawBuilding(context, 306);
             drawBuilding(context, 408);
             drawBuilding(context, 510);
             drawBuilding(context, 612);
             drawBuilding(context, 714);
-            drawBuilding(context, 816);
+            pos2 = drawBuilding(context, 816, true);
             drawBuilding(context, 918);
-		}
+            
+            return [pos1, pos2];
+        }
 
         function drawSun(context)
         {
@@ -85,8 +100,81 @@
 //            context.closePath();
 //            context.stroke();
         }
+        
+        function drawMonkeys(context, monkeyPositions)
+        {
+            var pos1X, pos1Y, pos2X, pos2Y;
+            pos1X = monkeyPositions[0][0];
+            pos1Y = monkeyPositions[0][1];
+            pos2X = monkeyPositions[1][0];
+            pos2Y = monkeyPositions[1][1];
+            
+            //Chests
+            context.fillStyle = "#feaa54";
+            context.beginPath();
+            context.arc(pos1X, pos1Y - 27, 12, 0, Math.PI * 2, false);
+            context.closePath();
+            context.fill();
+            
+            context.fillStyle = "#feaa54";
+            context.beginPath();
+            context.arc(pos2X, pos2Y - 27, 12, 0, Math.PI * 2, false);
+            context.closePath();
+            context.fill();
+            
+            //Head 1
+            context.fillStyle = "#feaa54";
+            context.beginPath();
+            context.arc(pos1X, pos1Y - 42, 7, 0, Math.PI * 2, false);
+            context.closePath();
+            context.fill();
+            //Left Eye
+            context.fillStyle = "#00008a";
+            context.beginPath();
+            context.arc(pos1X - 2, pos1Y - 43, 1, 0, Math.PI * 2, false);
+            context.closePath();
+            context.fill();
+            //Right Eye
+            context.beginPath();
+            context.arc(pos1X + 2, pos1Y - 43, 1, 0, Math.PI * 2, false);
+            context.closePath();
+            context.fill();
+            //Brow
+            context.strokeStyle = "#00008a";
+            context.moveTo(pos1X - 4, pos1Y - 46);
+            context.lineTo(pos1X + 4, pos1Y - 46);            
+            context.stroke();
+            
+            //Head 2
+            context.fillStyle = "#feaa54";
+            context.beginPath();
+            context.arc(pos2X, pos2Y - 42, 7, 0, Math.PI * 2, false);
+            context.closePath();
+            context.fill();
+            context.fillStyle = "#00008a";
+            context.beginPath();
+            //Left Eye
+            context.fillStyle = "#00008a";
+            context.beginPath();
+            context.arc(pos2X - 2, pos2Y - 43, 1, 0, Math.PI * 2, false);
+            context.closePath();
+            context.fill();
+            //Right Eye
+            context.beginPath();
+            context.arc(pos2X + 2, pos2Y - 43, 1, 0, Math.PI * 2, false);
+            context.closePath();
+            context.fill();
+            //Brow
+            context.strokeStyle = "#00008a";
+            context.moveTo(pos2X - 4, pos2Y - 46);
+            context.lineTo(pos2X + 4, pos2Y - 46);            
+            context.stroke();
+            
+            
+            
+        }
 
-        function drawBuilding(context, start)
+        function drawBuilding(context, start, isMonkey)
         {
             var width = 102;
             var wWidth = 10;
@@ -96,6 +184,21 @@
             var height = Math.floor(Math.random()* 400) + 150;
             var colour = Math.floor(Math.random()* 3);
             var numRows = (height / (wHeight + wOffset)) - 1;
+            
+            if(isMonkey)
+            {
+                //Legs - Circle Under chest circle with inner blue circle
+                context.fillStyle = "#feaa54";
+                context.beginPath();
+                context.arc(start + (width / 2), 768 - height - 7, 14, 0, Math.PI * 2, false);
+                context.closePath();
+                context.fill();
+                context.fillStyle = "#00008a";
+                context.beginPath();
+                context.arc(start + (width / 2), 768 - height - 5, 7, 0, Math.PI * 2, false);
+                context.closePath();
+                context.fill();
+            }
 
             switch(colour)
             {
@@ -135,6 +238,8 @@
                     on = Math.floor(Math.random() * 2);
                 }
             }
+            
+            return [start + (width / 2), 768 - height];
         }
 	</script>
 
